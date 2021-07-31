@@ -1,0 +1,23 @@
+input[type=text],input[type=email],textarea{
+    width: 40%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    background-color: antiquewhite;
+    color: black;
+}
+
+h3 {
+    font-family: 'Roboto Mono', monospace;
+}
+ 
+#bottom {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    color: #ffffff;
+    padding: 15px 0;
+}
