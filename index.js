@@ -113,10 +113,10 @@ function makebutton() {
     button.style.backgroundColor = "#F012BE";
     button.style.padding = "12px 25px";
     button.style.textAlign = "center";
-    button.innerHTML = "Generate";
+    button.innerHTML = "Generate Badge";
     button.onclick = function () {
         domtoimage.toBlob(document.getElementById('badge')).then(function (blob) {
-            window.saveAs(blob, 'my-node.png');
+            window.saveAs(blob, 'badge.png');
         });
     };
     document.getElementById('main').appendChild(button);
