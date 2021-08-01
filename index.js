@@ -2,21 +2,21 @@ var imported = document.createElement('script');
 imported.src = 'node_modules/qrcode-generator/qrcode.js';
 document.head.appendChild(imported);
 
-
 function process(){
-    let name_ = document.getElementById("name").value;
+    let fname_ = document.getElementById("fname").value;
+    let lname_ = document.getElementById("lname").value;
     var email_ = document.getElementById("email").value;
     var github_ = document.getElementById("github").value;
     var twitter_ = document.getElementById("twitter").value;
     let twit_ = twitter_.slice(1);
 
-    var regName = /^[a-zA-Z]+ [a-zA-Z]+$/;
+    var regName = /^([a-zA-Z])+$/;
     var validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
     
-    if (name_ == "" || email_ == "") {
+    if (fname_ == "" || lname_ == "" ||email_ == "") {
         alert("Fields should not be empty");
         return false;
-    } else if (!regName.test(name_)) {
+    } else if (!regName.test(fname_) || !regName.test(lname_)) {
         alert("Name should contain only characters");
         return false;
     } else if (!email_.match(validRegex)) {
@@ -27,17 +27,18 @@ function process(){
         return false;
     }
     
-    var data = JSON.stringify({name : name_, email : email_, github : github_, twitter : twitter_ });
+    var data = JSON.stringify({name : fname_, lname : lname_, email : email_, github : github_, twitter : twitter_ });
     var typeNumber = 0;
     var errorCorrectionLevel = 'L';
     var qr = qrcode(typeNumber, errorCorrectionLevel);
     qr.addData(data);
     qr.make();
-    makebadge(name_,email_,github_,twit_);
+    makebadge(fname_,lname_,email_, github_, twit_);
+    makebutton();
     document.getElementById('QR').innerHTML = qr.createImgTag(3);
 }
 
-function makebadge(name,email,github,twitter) {
+function makebadge(name,lname,email,github,twitter) {
     var olddiv = document.getElementById("badge");
     olddiv.remove();
 
@@ -52,7 +53,7 @@ function makebadge(name,email,github,twitter) {
     details.style.float = "left";
     details.style.padding = "2vh 5vw";
     details.style.fontFamily = "monospace";
-    details.innerHTML = name;
+    details.innerHTML = name + ' '+ lname;
     details.appendChild(document.createElement('br'));
 
     if (github != "") {
@@ -100,4 +101,23 @@ function makebadge(name,email,github,twitter) {
 
 function clearBox() {
     document.getElementById("badge").style.display = "none";
+    document.getElementById("button").style.display = "none";
+}
+
+function makebutton() {
+    var olddiv = document.getElementById("button");
+    olddiv.remove();
+    document.getElementById('main').appendChild(document.createElement('br'));
+    var button = document.createElement('button');
+    button.id = "button";
+    button.style.backgroundColor = "#F012BE";
+    button.style.padding = "12px 25px";
+    button.style.textAlign = "center";
+    button.innerHTML = "Generate";
+    button.onclick = function () {
+        domtoimage.toBlob(document.getElementById('badge')).then(function (blob) {
+            window.saveAs(blob, 'my-node.png');
+        });
+    };
+    document.getElementById('main').appendChild(button);
 }
