@@ -12,8 +12,9 @@ function process(){
 
     var regName = /^([a-zA-Z])+$/;
     var validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    var regPattern = /(?<!\w)@[\w+]{1,15}\b/;
     
-    if (fname_ == "" || lname_ == "" ||email_ == "") {
+    if (fname_ == "" || lname_ == "" || email_ == "") {
         alert("Fields should not be empty");
         return false;
     } else if (!regName.test(fname_) || !regName.test(lname_)) {
@@ -22,18 +23,18 @@ function process(){
     } else if (!email_.match(validRegex)) {
         alert("Email is not valid");
         return false;
-    }else if (twitter_ != "" && twitter_.slice(0, 1) != "@") {
-        alert("Twitter should start with @");
+    } else if (twitter_ != "" && !regPattern.test(twitter_)) {
+        alert("Twitter handle is not valid");
         return false;
     }
     
-    var data = JSON.stringify({name : fname_, lname : lname_, email : email_, github : github_, twitter : twitter_ });
+    var data = JSON.stringify({name : fname_, lname : lname_, email : email_, github : github_, twitter : twit_ });
     var typeNumber = 0;
     var errorCorrectionLevel = 'L';
     var qr = qrcode(typeNumber, errorCorrectionLevel);
     qr.addData(data);
     qr.make();
-    makebadge(fname_,lname_,email_, github_, twit_);
+    makebadge(fname_, lname_, email_, github_, twit_);
     makebutton();
     document.getElementById('QR').innerHTML = qr.createImgTag(3);
 }
@@ -107,7 +108,6 @@ function clearBox() {
 function makebutton() {
     var olddiv = document.getElementById("button");
     olddiv.remove();
-    document.getElementById('main').appendChild(document.createElement('br'));
     var button = document.createElement('button');
     button.id = "button";
     button.style.backgroundColor = "#F012BE";
@@ -120,4 +120,8 @@ function makebutton() {
         });
     };
     document.getElementById('main').appendChild(button);
+}
+
+function add() {
+    document.getElementById("twitter").value = "@";
 }
