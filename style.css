@@ -14,10 +14,3 @@ h3 {
     font-family: 'Roboto Mono', monospace;
 }
  
-#bottom {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    color: #ffffff;
-    padding: 15px 0;
-}
